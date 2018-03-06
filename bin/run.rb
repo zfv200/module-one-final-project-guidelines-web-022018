@@ -3,4 +3,6 @@ require_relative '../config/environment'
 # require_relative "../lib/command_line_interface.rb"
 
 hello
-get_user
+user = get_user
+get_location(user)
+get_temperatures(user)

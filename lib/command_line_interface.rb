@@ -9,26 +9,31 @@ end
 def get_user
   puts "Please enter User ID"
   user_id = gets.chomp
-  User.find_or_create_by(name: user_id)
-
-  # loop do
-  #   if user_id.is_a? String
-  #     return info.downcase
-  #   else
-  #     puts "Please enter a valid input!"
-  #   end
-  # end
-
-  #get input
-  #if the user exists, welcome user and ask to get started.
-  #return its
-  #
+  user = User.find_or_create_by(name: user_id)
+  user
 end
+
+def get_location(user)
+  if user.id == User.last.id
+    puts "Please enter location (major cities only)"
+    #this saves any location entered
+    location = gets.chomp
+    #make sure it's a valid location
+    get_and_save_location(location, user)
+    #location_path
+  else
+    puts "Welcome back, #{user.name}!"
+    puts "Please enter a command"
+  end
+end
+
+
+
+#switch statement for fun methods
+
 
 #user types "what is the temperature?"
-def get_temperature
 
-end
 
 
 
