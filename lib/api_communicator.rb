@@ -1,6 +1,6 @@
-require 'rest-client'
-require 'json'
-require 'pry'
+# require 'rest-client'
+# require 'json'
+# require 'pry'
 
 def get_weather_from_api
   #make the web request
@@ -21,14 +21,17 @@ def get_weather_from_api
     current_weather_by_location.select do |k, v|
       %w"weather_state_name min_temp max_temp the_temp wind_speed humidity".include? k
     end
+
   end
 
   #go through our array of customized hashes
   #on each one, instantiate a new object using its "attributes"
   #and then save it
-  to_be_saved.each do |weather_hash|
-    new_object = Weather.new(weather_hash)
-    new_object.save
+  to_be_saved.collect do |weather_hash|
+    new_object = Weather.find_or_create_by(condition: weather_hash["weather_state_name"], min_temperature: weather_hash["min_temp"], max_temperature: weather_hash["max_temp"], temperature: weather_hash["the_temp"], wind_speed: weather_hash["wind_speed"], humidity: weather_hash["humidity"])
+    # new_object.save
   end
+
+
 
 end
