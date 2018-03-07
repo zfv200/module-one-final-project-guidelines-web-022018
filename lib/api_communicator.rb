@@ -11,8 +11,16 @@ def get_and_save_location(location, user)
   city_array = JSON.parse(city_data)
   woeid = city_array[0]["woeid"]
   #maybe give locations a name?
+
+  #answer is in here, need to create a location with a weather
   new_location = Location.find_or_create_by(name: city_array[0]["title"])
-  user.locations << new_location
+  new_location.user_id = user.id
+  # user.locations << new_location
+  #refactor as a hash passed in to an update function
+  new_location.weather_id = get_weather_data(woeid)[0].id
+  new_location.save
+
+  # user.save
   woeid
   # new_location.user_id = user.id
   #how to add the weatherID??????
@@ -46,7 +54,7 @@ def get_weather_data(get_and_save_location)
 end
 
 def get_temperatures(user)
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   min = (weather[0].min_temperature.to_f * 1.8 + 32).ceil
   max = (weather[0].max_temperature.to_f * 1.8 + 32).ceil
@@ -56,7 +64,7 @@ end
 
 def snow(user)
   # binding.pry
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   condition = weather[0]["condition"].downcase
   if condition.include?("snow") || condition.include?("hail") || condition.include?("sleet")
     puts "It gonna snow"
@@ -67,7 +75,7 @@ end
 
 def rain(user)
   # binding.pry
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   condition = weather[0]["condition"].downcase
   if condition.include?("heavy rain") || condition.include?("light rain") || condition.include?("thunderstorm") || condition.include?("showers")
     puts "It gonna rain"
@@ -78,7 +86,7 @@ end
 
 def windy(user)
   # binding.pry
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   wind_speed = weather[0]["wind_speed"].to_f.ceil
   if wind_speed > 15
     puts "O it windy"
@@ -88,7 +96,7 @@ def windy(user)
 end
 
 def jacket(user)
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   if current_temp < 50
     puts "You best be putting on yo jacket"
@@ -96,7 +104,6 @@ def jacket(user)
     puts "Na you won't be needin yo jacket"
   end
 end
-
 
 #
 #

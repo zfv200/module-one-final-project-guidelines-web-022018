@@ -1,5 +1,7 @@
 
-
+def new_method
+  binding.pry
+end
 
 def hello
   puts "Welcome to WeatherApp!"
@@ -15,20 +17,66 @@ end
 
 def get_location(user)
   if user.id == User.last.id
-    puts "Please enter location (major cities only)"
+    puts "Please enter your first location (major cities only)"
     #this saves any location entered
     location = gets.chomp
     #make sure it's a valid location
     get_and_save_location(location, user)
     #location_path
+    user.current_location = 0
+    user.save
   else
     puts "Welcome back, #{user.name}!"
   end
 end
 
+def choose_location(user)
+  puts "Enter a number to make a selection"
+  puts "1. Choose saved location"
+  puts "2. Choose new location"
+  selection = gets.chomp
+    case selection
+      when "1"
+        # which location?
+        switch_location(user)
+      when "2"
+        puts "Enter your new location"
+        location = gets.chomp
+        #make sure it's a valid location
+
+        get_and_save_location(location, user)
+        user.current_location = (user.locations.count - 1)
+        switch(user)
+      else
+        puts "Please enter a valid selection"
+        choose_location(user)
+    end
+end
+
+def switch_location(user)
+  count = 1
+  user.locations.each do |location|
+    puts "#{count}: #{location.name}"
+    count += 1
+  end
+  puts "please make your selection"
+  location_count = user.locations.count
+  location_selection = gets.chomp
+    if location_selection.to_i > 0 && location_selection.to_i < location_count + 1
+      user.current_location = location_selection.to_i - 1
+      user.save
+    else
+      puts "please enter a valid selection"
+      switch_location(user)
+    end
+end
+##this don't work good
+
+
+
 
 def switch(user)
-  binding.pry
+  # binding.pry
   #switch statement for fun methods
   puts "Enter a number to make a selection: "
   puts "1. What is the temperature for today?"
