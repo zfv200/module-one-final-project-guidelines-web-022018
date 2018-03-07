@@ -8,14 +8,14 @@ def hello
   # get_weather_from_api
   a = Artii::Base.new
    puts a.asciify("WeatherApp").colorize(:cyan)
-   sleep(2)
+   # sleep(2)
    puts "For all your weather needs."
 end
 
 def get_user
-  sleep(2)
+  # sleep(2)
   puts "Please enter User ID".colorize(:yellow)
-  sleep(2)
+  # sleep(2)
   puts "(Yes, this is funkytown)"
   user_id = gets.chomp
   user = User.find_or_create_by(name: user_id)
@@ -35,6 +35,23 @@ def get_location(user)
   else
     puts "Welcome back, #{user.name}!"
   end
+end
+
+def game_or_weather(user)
+  puts "Enter a number to make a selection"
+  puts "1. Get the weather"
+  puts "2. Play a weather game"
+  decision = gets.chomp
+    case decision
+      when "1"
+        choose_location(user)
+      when "2"
+        puts "work in progress"
+        #game_method
+      else
+        puts "Please enter a valid selection"
+        game_or_weather(user)
+    end
 end
 
 def choose_location(user)
@@ -72,6 +89,7 @@ def switch_location(user)
     if location_selection.to_i > 0 && location_selection.to_i < location_count + 1
       user.current_location = location_selection.to_i - 1
       user.save
+      binding.pry
     else
       puts "please enter a valid selection"
       switch_location(user)
@@ -92,6 +110,7 @@ def switch(user)
   puts "4. Is it going to snow today?"
   puts "5. Is it going to be windy today?"
   puts "6. List all my locations' weather."
+  puts "7. Exit WeatherApp"
 selection = gets.chomp
   case selection
     when "1"
@@ -112,6 +131,8 @@ selection = gets.chomp
     when "6"
       list_all_conditions(user)
       switch(user)
+    when "7"
+      abort("Goodbye!")
     else
       puts "Please enter a valid selection"
       switch(user)

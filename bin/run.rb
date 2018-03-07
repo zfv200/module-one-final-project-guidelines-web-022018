@@ -6,6 +6,7 @@ pid = fork{ exec "afplay", 'media/Funky town Lyrics.mp3'}
 hello
 user = get_user
 get_location(user)
+game_or_weather(user)
 choose_location(user)
 switch(user)
 
