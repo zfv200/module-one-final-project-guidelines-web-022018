@@ -89,7 +89,7 @@ def switch_location(user)
     if location_selection.to_i > 0 && location_selection.to_i < location_count + 1
       user.current_location = location_selection.to_i - 1
       user.save
-      binding.pry
+      # binding.pry
     else
       puts "please enter a valid selection"
       switch_location(user)
