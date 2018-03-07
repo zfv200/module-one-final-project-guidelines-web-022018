@@ -91,6 +91,7 @@ def switch(user)
   puts "3. Do I need to wear a jacket today"
   puts "4. Is it going to snow today?"
   puts "5. Is it going to be windy today?"
+  puts "6. List all my locations' weather."
 selection = gets.chomp
   case selection
     when "1"
@@ -107,6 +108,9 @@ selection = gets.chomp
       switch(user)
     when "5"
       windy(user)
+      switch(user)
+    when "6"
+      list_all_conditions(user)
       switch(user)
     else
       puts "Please enter a valid selection"

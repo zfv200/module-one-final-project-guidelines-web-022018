@@ -105,6 +105,12 @@ def jacket(user)
   end
 end
 
+def list_all_conditions(user)
+  user.weathers.each do |i|
+    puts "#{i.locations[0].name}: #{i["condition"]}"
+  end
+end
+
 #
 #
 # def get_weather_from_api(location)
