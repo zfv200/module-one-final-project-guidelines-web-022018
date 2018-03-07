@@ -5,4 +5,9 @@ require_relative '../config/environment'
 hello
 user = get_user
 get_location(user)
-get_temperatures(user)
+switch(user)
+# get_temperatures(user)
+# snow(user)
+# rain(user)
+# windy(user)
+# jacket(user)

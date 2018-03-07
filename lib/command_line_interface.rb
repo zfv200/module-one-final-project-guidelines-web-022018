@@ -23,13 +23,40 @@ def get_location(user)
     #location_path
   else
     puts "Welcome back, #{user.name}!"
-    puts "Please enter a command"
   end
 end
 
 
-
-#switch statement for fun methods
+def switch(user)
+  #switch statement for fun methods
+  puts "Enter a number to make a selection: "
+  puts "1. What is the temperature for today?"
+  puts "2. Is it going to rain today?"
+  puts "3. Do I need to wear a jacket today"
+  puts "4. Is it going to snow today?"
+  puts "5. Is it going to be windy today?"
+selection = gets.chomp
+  case selection
+    when "1"
+      get_temperatures(user)
+      switch(user)
+    when "2"
+      rain(user)
+      switch(user)
+    when "3"
+      jacket(user)
+      switch(user)
+    when "4"
+      snow(user)
+      switch(user)
+    when "5"
+      windy(user)
+      switch(user)
+    else
+      puts "Please enter a valid selection"
+      switch(user)
+    end
+end
 
 
 #user types "what is the temperature?"

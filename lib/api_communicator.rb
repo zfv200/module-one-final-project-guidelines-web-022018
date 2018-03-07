@@ -54,6 +54,49 @@ def get_temperatures(user)
   with a low of #{min} and a high of #{max}."
 end
 
+def snow(user)
+  # binding.pry
+  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  condition = weather[0]["condition"].downcase
+  if condition.include?("snow") || condition.include?("hail") || condition.include?("sleet")
+    puts "It gonna snow"
+  else
+    puts "It ain't gonna snow"
+  end
+end
+
+def rain(user)
+  # binding.pry
+  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  condition = weather[0]["condition"].downcase
+  if condition.include?("heavy rain") || condition.include?("light rain") || condition.include?("thunderstorm") || condition.include?("showers")
+    puts "It gonna rain"
+  else
+    puts "Uh uh, it ain't gonna rain"
+  end
+end
+
+def windy(user)
+  # binding.pry
+  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  wind_speed = weather[0]["wind_speed"].to_f.ceil
+  if wind_speed > 15
+    puts "O it windy"
+  else
+    puts "Na it ain't that windy"
+  end
+end
+
+def jacket(user)
+  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
+  if current_temp < 50
+    puts "You best be putting on yo jacket"
+  else
+    puts "Na you won't be needin yo jacket"
+  end
+end
+
 
 #
 #
