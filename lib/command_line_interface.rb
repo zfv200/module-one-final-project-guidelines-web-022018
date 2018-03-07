@@ -1,15 +1,22 @@
 
-def new_method
-  binding.pry
-end
+
 
 def hello
-  puts "Welcome to WeatherApp!"
+  # a = Artii::Base.new :font => "slant"
+  # a.asciify(Welcome to WeatherApp!’)
+  # puts "Welcome to WeatherApp!"
   # get_weather_from_api
+  a = Artii::Base.new
+   puts a.asciify("WeatherApp").colorize(:cyan)
+   sleep(2)
+   puts "For all your weather needs."
 end
 
 def get_user
-  puts "Please enter User ID"
+  sleep(2)
+  puts "Please enter User ID".colorize(:yellow)
+  sleep(2)
+  puts "(Yes, this is funkytown)"
   user_id = gets.chomp
   user = User.find_or_create_by(name: user_id)
   user
