@@ -28,6 +28,7 @@ end
 
 
 def switch(user)
+  binding.pry
   #switch statement for fun methods
   puts "Enter a number to make a selection: "
   puts "1. What is the temperature for today?"
