@@ -34,6 +34,10 @@ def get_location(user)
     user.save
   else
     puts "Welcome back, #{user.name}!"
+    binding.pry
+    #go through each of the users weathers and update them to be accurate
+    #maybe write a method that would be called on each of them to do this
+    #we have all the code necessary to do this
   end
 end
 
