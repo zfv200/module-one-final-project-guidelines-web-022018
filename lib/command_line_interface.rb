@@ -8,22 +8,22 @@ def hello
   # get_weather_from_api
   a = Artii::Base.new
 
-   # puts a.asciify("W").colorize(:red)
-   # sleep(1.0/2.0)
-   # puts a.asciify("E").colorize(:light_yellow)
-   # sleep(1.0/2.0)
-   # puts a.asciify("A")
-   # sleep(1.0/2.0)
-   # puts a.asciify("T").colorize(:cyan)
-   # sleep(1.0/2.0)
-   # puts a.asciify("H").colorize(:red)
-   # sleep(1.0/2.0)
-   # puts a.asciify("E").colorize(:light_yellow)
-   # sleep(1.0/2.0)
-   # puts a.asciify("R")
-   # sleep(1)
-   # puts a.asciify("WeatherApp").colorize(:cyan)
-   # sleep(2)
+   puts a.asciify("W").colorize(:red)
+   sleep(1.0/2.0)
+   puts a.asciify("E").colorize(:light_yellow)
+   sleep(1.0/2.0)
+   puts a.asciify("A")
+   sleep(1.0/2.0)
+   puts a.asciify("T").colorize(:cyan)
+   sleep(1.0/2.0)
+   puts a.asciify("H").colorize(:red)
+   sleep(1.0/2.0)
+   puts a.asciify("E").colorize(:light_yellow)
+   sleep(1.0/2.0)
+   puts a.asciify("R")
+   sleep(1)
+   puts a.asciify("WeatherApp").colorize(:cyan)
+   sleep(2)
    puts "For all your weather needs.".colorize(:light_red)
 end
 
@@ -74,6 +74,7 @@ def game_or_weather(user)
       when "2"
         puts "work in progress"
         #game_method
+
       else
         puts "Please enter a valid selection"
         game_or_weather(user)
