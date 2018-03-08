@@ -73,6 +73,7 @@ def get_temperatures(user)
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   min = (weather[0].min_temperature.to_f * 1.8 + 32).ceil
   max = (weather[0].max_temperature.to_f * 1.8 + 32).ceil
+  puts "**************************************************************************".colorize(:light_yellow)
   puts "Your forecast for today: Current temperature is #{current_temp} degrees Fahrenheit
   with a low of #{min} and a high of #{max}."
 end
