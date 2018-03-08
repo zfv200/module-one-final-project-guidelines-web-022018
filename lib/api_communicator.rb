@@ -82,9 +82,11 @@ def snow(user)
   weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   condition = weather[0]["condition"].downcase
   if condition.include?("snow") || condition.include?("hail") || condition.include?("sleet")
-    puts "It gonna snow"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "It gonna snow".colorize(:red)
   else
-    puts "It ain't gonna snow"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "It ain't gonna snow".colorize(:red)
   end
 end
 
@@ -93,9 +95,11 @@ def rain(user)
   weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   condition = weather[0]["condition"].downcase
   if condition.include?("heavy rain") || condition.include?("light rain") || condition.include?("thunderstorm") || condition.include?("showers")
-    puts "It gonna rain"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "It gonna rain".colorize(:red)
   else
-    puts "Uh uh, it ain't gonna rain"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Uh uh, it ain't gonna rain".colorize(:red)
   end
 end
 
@@ -104,9 +108,11 @@ def windy(user)
   weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   wind_speed = weather[0]["wind_speed"].to_f.ceil
   if wind_speed > 15
-    puts "O it windy"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "O it windy".colorize(:red)
   else
-    puts "Na it ain't that windy"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Na it ain't that windy".colorize(:red)
   end
 end
 
@@ -114,16 +120,18 @@ def jacket(user)
   weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   if current_temp < 50
-    puts "You best be putting on yo jacket"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "You best be putting on yo jacket".colorize(:red)
   else
-    puts "Na you won't be needin yo jacket"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Na you won't be needin yo jacket".colorize(:red)
   end
 end
 
 def list_all_conditions(user)
    user.weathers.each do |i|
-     binding.pry
-     puts "#{i.locations[0].name}: #{i["condition"]} with a high of #{(i["max_temperature"].to_f * 1.8 + 32).ceil} degrees Fahrenheit"
+     puts "**************************************************************************".colorize(:light_yellow)
+     puts "#{i.locations[0].name}: #{i["condition"]} with a high of #{(i["max_temperature"].to_f * 1.8 + 32).ceil} degrees Fahrenheit".colorize(:red)
    end
 end
 

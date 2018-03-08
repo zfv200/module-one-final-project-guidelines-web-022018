@@ -7,14 +7,29 @@ def hello
   # puts "Welcome to WeatherApp!"
   # get_weather_from_api
   a = Artii::Base.new
-   puts a.asciify("WeatherApp").colorize(:cyan)
+
+   # puts a.asciify("W").colorize(:red)
+   # sleep(1.0/2.0)
+   # puts a.asciify("E").colorize(:light_yellow)
+   # sleep(1.0/2.0)
+   # puts a.asciify("A")
+   # sleep(1.0/2.0)
+   # puts a.asciify("T").colorize(:cyan)
+   # sleep(1.0/2.0)
+   # puts a.asciify("H").colorize(:red)
+   # sleep(1.0/2.0)
+   # puts a.asciify("E").colorize(:light_yellow)
+   # sleep(1.0/2.0)
+   # puts a.asciify("R")
+   # sleep(1)
+   # puts a.asciify("WeatherApp").colorize(:cyan)
    # sleep(2)
-   puts "For all your weather needs."
+   puts "For all your weather needs.".colorize(:light_red)
 end
 
 def get_user
   # sleep(2)
-  puts "Please enter User ID".colorize(:yellow)
+  puts "Please enter User ID".colorize(:light_yellow)
   # sleep(2)
   # puts "(Yes, this is funkytown)"
   user_id = gets.chomp
@@ -34,7 +49,7 @@ def get_location(user)
     user.current_location = 0
     user.save
   else
-    puts "Welcome back, #{user.name}!"
+    puts "Welcome back, #{user.name}!".colorize(:cyan)
     #go through each of the users weathers and update them to be accurate
     #maybe write a method that would be called on each of them to do this
     #we have all the code necessary to do this
@@ -59,9 +74,9 @@ def game_or_weather(user)
 end
 
 def choose_location(user)
-  puts "Enter a number to make a selection"
-  puts "1. Choose saved location"
-  puts "2. Choose new location"
+  puts "Enter a number to make a selection".colorize(:cyan)
+  puts "1. Choose saved location".colorize(:light_red)
+  puts "2. Choose new location".colorize(:light_yellow)
   selection = gets.chomp
     case selection
       when "1"
@@ -82,12 +97,13 @@ def choose_location(user)
 end
 
 def switch_location(user)
+  puts "**************************************************************************".colorize(:light_yellow)
   count = 1
   user.locations.each do |location|
     puts "#{count}: #{location.name}"
     count += 1
   end
-  puts "please make your selection"
+  puts "Please make your selection".colorize(:cyan)
   location_count = user.locations.count
   location_selection = gets.chomp
     if location_selection.to_i > 0 && location_selection.to_i < location_count + 1
@@ -111,14 +127,15 @@ end
 def switch(user)
   # binding.pry
   #switch statement for fun methods
+  puts "**************************************************************************".colorize(:light_yellow)
   puts "Enter a number to make a selection: "
-  puts "1. What is the temperature for today?"
-  puts "2. Is it going to rain today?"
-  puts "3. Do I need to wear a jacket today"
+  puts "1. What is the temperature for today?".colorize(:cyan)
+  puts "2. Is it going to rain today?".colorize(:red)
+  puts "3. Do I need to wear a jacket today".colorize(:light_yellow)
   puts "4. Is it going to snow today?"
-  puts "5. Is it going to be windy today?"
-  puts "6. List all my locations' weather."
-  puts "7. Exit WeatherApp"
+  puts "5. Is it going to be windy today?".colorize(:cyan)
+  puts "6. List all my locations' weather.".colorize(:red)
+  puts "7. Exit WeatherApp".colorize(:light_yellow)
 selection = gets.chomp
   case selection
     when "1"
