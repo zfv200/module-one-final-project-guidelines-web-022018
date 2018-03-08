@@ -45,7 +45,6 @@ def update_weather(location, user, old_weather)
   city_array = JSON.parse(city_data)
   woeid = city_array[0]["woeid"]
 
-
   all_weather = RestClient.get("https://www.metaweather.com/api/location/#{woeid}/")
   weather_forecast = JSON.parse(all_weather)
 
@@ -85,8 +84,8 @@ def get_temperatures(user)
   max = (weather[0].max_temperature.to_f * 1.8 + 32).ceil
   puts "**************************************************************************".colorize(:light_yellow)
 
-  puts "Your forecast for today: Current temperature is #{current_temp} degrees Fahrenheit
-  with a low of #{min} and a high of #{max}."
+  puts "Current temperature is #{current_temp} degrees Fahrenheit
+with a low of #{min} and a high of #{max}.".colorize(:red)
 end
 
 def snow(user)

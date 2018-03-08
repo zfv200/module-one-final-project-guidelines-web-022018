@@ -10,4 +10,4 @@ get_location(user)
 choose_location(user)
 switch(user)
 
-pid = fork{ exec ‘killall’, 'afplay' }
+# pid = fork{ exec ‘killall’, 'afplay' }

@@ -1,5 +1,3 @@
-///////////
-
 # WeatherApp
 
 WeatherApp is designed to allow separate users to use a CLI to log in
@@ -18,5 +16,4 @@ saved for their future sessions.
 
 2. Run the program's run file in terminal <br>`ruby bin/run.rb`
 
-
-Enjoy!
+# Enjoy!

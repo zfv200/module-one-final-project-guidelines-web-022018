@@ -8,22 +8,22 @@ def hello
   # get_weather_from_api
   a = Artii::Base.new
 
-   puts a.asciify("W").colorize(:red)
-   sleep(1.0/2.0)
-   puts a.asciify("E").colorize(:light_yellow)
-   sleep(1.0/2.0)
-   puts a.asciify("A")
-   sleep(1.0/2.0)
-   puts a.asciify("T").colorize(:cyan)
-   sleep(1.0/2.0)
-   puts a.asciify("H").colorize(:red)
-   sleep(1.0/2.0)
-   puts a.asciify("E").colorize(:light_yellow)
-   sleep(1.0/2.0)
-   puts a.asciify("R")
-   sleep(1)
-   puts a.asciify("WeatherApp").colorize(:cyan)
-   sleep(2)
+   # puts a.asciify("W").colorize(:red)
+   # sleep(1.0/2.0)
+   # puts a.asciify("E").colorize(:light_yellow)
+   # sleep(1.0/2.0)
+   # puts a.asciify("A")
+   # sleep(1.0/2.0)
+   # puts a.asciify("T").colorize(:cyan)
+   # sleep(1.0/2.0)
+   # puts a.asciify("H").colorize(:red)
+   # sleep(1.0/2.0)
+   # puts a.asciify("E").colorize(:light_yellow)
+   # sleep(1.0/2.0)
+   # puts a.asciify("R")
+   # sleep(1)
+   # puts a.asciify("WeatherApp").colorize(:cyan)
+   # sleep(2)
    puts "For all your weather needs.".colorize(:light_red)
 end
 
@@ -40,6 +40,7 @@ end
 def get_location(user)
   # if user.id == User.last.id
   if user.locations.empty?
+    puts "**************************************************************************".colorize(:light_yellow)
     puts "Please enter your first location (major cities only)"
     #this saves any location entered
     location = gets.chomp
@@ -51,11 +52,12 @@ def get_location(user)
       user.save
     else
       puts "**************************************************************************".colorize(:light_yellow)
-      puts "Please enter a valid location"
+      puts "City not recognized. Please enter a valid location"
       puts "**************************************************************************".colorize(:light_yellow)
       get_location(user)
     end
   else
+    puts "**************************************************************************".colorize(:light_yellow)
     puts "Welcome back, #{user.name}!".colorize(:cyan)
     #go through each of the users weathers and update them to be accurate
     #maybe write a method that would be called on each of them to do this
@@ -106,6 +108,8 @@ def choose_location(user)
           puts "**************************************************************************".colorize(:light_yellow)
           choose_location(user)
         end
+      when "exit"
+        abort("Goodbye!")
       else
         puts "**************************************************************************".colorize(:light_yellow)
         puts "Please enter a valid selection"
@@ -117,9 +121,15 @@ end
 def switch_location(user)
   puts "**************************************************************************".colorize(:light_yellow)
   count = 1
+  color_number = 1
+  color_hash = {1 => :green, 2 => :cyan, 3 => :red, 4 => :light_yellow}
   user.locations.each do |location|
-    puts "#{count}: #{location.name}"
+    puts "#{count}: #{location.name}".colorize(color_hash[color_number])
     count += 1
+    color_number += 1
+    if color_number == 5
+      color_number = 1
+    end
   end
   puts "Please make your selection".colorize(:cyan)
   location_count = user.locations.count
@@ -180,6 +190,7 @@ selection = gets.chomp
       choose_location(user)
     when "8"
       #exit statement
+      abort("Goodbye!")
     else
       puts "Please enter a valid selection"
       switch(user)
