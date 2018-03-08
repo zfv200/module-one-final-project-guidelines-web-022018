@@ -16,14 +16,15 @@ def get_user
   # sleep(2)
   puts "Please enter User ID".colorize(:yellow)
   # sleep(2)
-  puts "(Yes, this is funkytown)"
+  # puts "(Yes, this is funkytown)"
   user_id = gets.chomp
   user = User.find_or_create_by(name: user_id)
   user
 end
 
 def get_location(user)
-  if user.id == User.last.id
+  # if user.id == User.last.id
+  if user.locations.empty?
     puts "Please enter your first location (major cities only)"
     #this saves any location entered
     location = gets.chomp
@@ -34,7 +35,6 @@ def get_location(user)
     user.save
   else
     puts "Welcome back, #{user.name}!"
-    binding.pry
     #go through each of the users weathers and update them to be accurate
     #maybe write a method that would be called on each of them to do this
     #we have all the code necessary to do this
@@ -92,6 +92,10 @@ def switch_location(user)
   location_selection = gets.chomp
     if location_selection.to_i > 0 && location_selection.to_i < location_count + 1
       user.current_location = location_selection.to_i - 1
+      #grab the location's name
+      to_be_updated = user.locations[location_selection.to_i - 1].name
+      old_weather = user.locations[location_selection.to_i - 1].weather
+      update_weather(to_be_updated, user, old_weather)
       user.save
       # binding.pry
     else
@@ -133,6 +137,7 @@ selection = gets.chomp
       windy(user)
       switch(user)
     when "6"
+      update_all_weathers(user)
       list_all_conditions(user)
       switch(user)
     when "7"

@@ -28,6 +28,21 @@ def get_and_save_location(location, user)
   # city_array[0]["title"] #= string of city name
 end
 
+def update_weather(location, user, old_weather)
+  query_link = "https://www.metaweather.com/api/location/search/?query=#{location}"
+
+  city_data = RestClient.get(query_link)
+  city_array = JSON.parse(city_data)
+  woeid = city_array[0]["woeid"]
+
+
+  all_weather = RestClient.get("https://www.metaweather.com/api/location/#{woeid}/")
+  weather_forecast = JSON.parse(all_weather)
+
+  current_weather = weather_forecast["consolidated_weather"][0]
+  old_weather.update(condition: current_weather["weather_state_name"], min_temperature: current_weather["min_temp"], max_temperature: current_weather["max_temp"], temperature: current_weather["the_temp"], wind_speed: current_weather["wind_speed"], humidity: current_weather["humidity"])
+end
+
 
 def get_weather_data(get_and_save_location)
   weather_array = []
@@ -106,9 +121,17 @@ def jacket(user)
 end
 
 def list_all_conditions(user)
-  user.weathers.each do |i|
-    puts "#{i.locations[0].name}: #{i["condition"]}"
-  end
+   user.weathers.each do |i|
+     binding.pry
+     puts "#{i.locations[0].name}: #{i["condition"]} with a high of #{(i["max_temperature"].to_f * 1.8 + 32).ceil} degrees Fahrenheit"
+   end
+end
+
+def update_all_weathers(user)
+  user.weathers.each do |weather|
+    location = weather.locations[0].name
+     update_weather(location, user, weather)
+   end
 end
 
 #
