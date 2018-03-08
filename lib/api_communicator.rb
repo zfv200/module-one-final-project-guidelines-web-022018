@@ -6,7 +6,10 @@
 
 def get_and_save_location(location, user)
   query_link = "https://www.metaweather.com/api/location/search/?query=#{location}"
+  if query_link == nil
+    puts "Please enter a valid city name"
 
+  end
   city_data = RestClient.get(query_link)
   city_array = JSON.parse(city_data)
   woeid = city_array[0]["woeid"]
@@ -26,6 +29,13 @@ def get_and_save_location(location, user)
   #how to add the weatherID??????
   #we're trying to add the location as an object, based on some convenient attribute
   # city_array[0]["title"] #= string of city name
+end
+
+def valid?(location)
+  query_link = "https://www.metaweather.com/api/location/search/?query=#{location}"
+  city_data = RestClient.get(query_link)
+  city_array = JSON.parse(city_data)
+  !city_array.empty?
 end
 
 def update_weather(location, user, old_weather)
@@ -74,6 +84,7 @@ def get_temperatures(user)
   min = (weather[0].min_temperature.to_f * 1.8 + 32).ceil
   max = (weather[0].max_temperature.to_f * 1.8 + 32).ceil
   puts "**************************************************************************".colorize(:light_yellow)
+
   puts "Your forecast for today: Current temperature is #{current_temp} degrees Fahrenheit
   with a low of #{min} and a high of #{max}."
 end
@@ -92,7 +103,6 @@ def snow(user)
 end
 
 def rain(user)
-  # binding.pry
   weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   condition = weather[0]["condition"].downcase
   if condition.include?("heavy rain") || condition.include?("light rain") || condition.include?("thunderstorm") || condition.include?("showers")

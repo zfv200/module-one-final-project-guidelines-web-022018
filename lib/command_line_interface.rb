@@ -44,10 +44,17 @@ def get_location(user)
     #this saves any location entered
     location = gets.chomp
     #make sure it's a valid location
-    get_and_save_location(location, user)
-    #location_path
-    user.current_location = 0
-    user.save
+    if valid?(location)
+      get_and_save_location(location, user)
+      #location_path
+      user.current_location = 0
+      user.save
+    else
+      puts "**************************************************************************".colorize(:light_yellow)
+      puts "Please enter a valid location"
+      puts "**************************************************************************".colorize(:light_yellow)
+      get_location(user)
+    end
   else
     puts "Welcome back, #{user.name}!".colorize(:cyan)
     #go through each of the users weathers and update them to be accurate
@@ -86,12 +93,22 @@ def choose_location(user)
         puts "Enter your new location"
         location = gets.chomp
         #make sure it's a valid location
-
-        get_and_save_location(location, user)
-        user.current_location = (user.locations.count - 1)
-        switch(user)
+        # binding.pry
+        if valid?(location)
+          get_and_save_location(location, user)
+          user.current_location = (user.locations.count - 1)
+          switch(user)
+          user.save
+        else
+          puts "**************************************************************************".colorize(:light_yellow)
+          puts "Please enter a valid selection"
+          puts "**************************************************************************".colorize(:light_yellow)
+          choose_location(user)
+        end
       else
+        puts "**************************************************************************".colorize(:light_yellow)
         puts "Please enter a valid selection"
+        puts "**************************************************************************".colorize(:light_yellow)
         choose_location(user)
     end
 end
@@ -135,7 +152,8 @@ def switch(user)
   puts "4. Is it going to snow today?"
   puts "5. Is it going to be windy today?".colorize(:cyan)
   puts "6. List all my locations' weather.".colorize(:red)
-  puts "7. Exit WeatherApp".colorize(:light_yellow)
+  puts "7. Change location".colorize(:light_yellow)
+  puts "8. Exit WeatherApp"
 selection = gets.chomp
   case selection
     when "1"
@@ -158,7 +176,9 @@ selection = gets.chomp
       list_all_conditions(user)
       switch(user)
     when "7"
-      abort("Goodbye!")
+      choose_location(user)
+    when "8"
+      #exit statement
     else
       puts "Please enter a valid selection"
       switch(user)
