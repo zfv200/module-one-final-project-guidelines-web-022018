@@ -1,6 +1,6 @@
 ///////////
 
-#WeatherApp
+# WeatherApp
 
 WeatherApp is designed to allow separate users to use a CLI to log in
 to an environment where they can find out about the current weather.
@@ -12,13 +12,11 @@ will answer these questions, and return some helpful advice for the user in
 preparing for their day. Once they exit the program, their past locations are
 saved for their future sessions.
 
-#Installation:
+# Installation:
 
-1. Clone the repository
-  `git clone [this repository]`
+1. Clone the repository <br>`git clone [this repository]`
 
-2. Run the program's run file in terminal
-  `ruby bin/run.rb`
+2. Run the program's run file in terminal <br>`ruby bin/run.rb`
 
 
 Enjoy!
