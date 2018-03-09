@@ -42,7 +42,8 @@ def get_location(user)
   # if user.id == User.last.id
   if user.locations.empty?
     sleep(1)
-    puts "Please enter your first location (major cities only)"
+    puts "Welcome, #{user.name}!"
+    puts "Please save your first location (major cities only)"
     #this saves any location entered
     location = gets.chomp
     #make sure it's a valid location

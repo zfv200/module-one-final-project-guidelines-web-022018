@@ -84,7 +84,7 @@ def get_temperatures(user)
   puts "**************************************************************************".colorize(:light_yellow)
 
   puts "Current temperature is #{current_temp} degrees Fahrenheit
-with a low of #{min} and a high of #{max}.".colorize(:red)
+with a low of #{min} and a high of #{max}.".colorize(:red).blink
 end
 
 def snow(user)
@@ -93,10 +93,10 @@ def snow(user)
   condition = weather[0]["condition"].downcase
   if condition.include?("snow") || condition.include?("hail") || condition.include?("sleet")
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Better prepare for a bit of snow!".colorize(:red)
+    puts "Better prepare for a bit of snow!".colorize(:red).blink
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Snow is not expected today.".colorize(:red)
+    puts "Snow is not expected today.".colorize(:red).blink
   end
 end
 
@@ -105,10 +105,10 @@ def rain(user)
   condition = weather[0]["condition"].downcase
   if condition.include?("heavy rain") || condition.include?("light rain") || condition.include?("thunderstorm") || condition.include?("showers")
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Do not hesitate to bring your umbrella, rain is expected!".colorize(:red)
+    puts "Do not hesitate to bring your umbrella, rain is expected!".colorize(:red).blink
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Rain is not expected today, worry not!".colorize(:red)
+    puts "Rain is not expected today, worry not!".colorize(:red).blink
   end
 end
 
@@ -118,10 +118,10 @@ def windy(user)
   wind_speed = weather[0]["wind_speed"].to_f.ceil
   if wind_speed > 15
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Today seems to be rather blustery!".colorize(:red)
+    puts "Today seems to be rather blustery!".colorize(:red).blink
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "No strong winds today, dear user.".colorize(:red)
+    puts "No strong winds today, dear user.".colorize(:red).blink
   end
 end
 
@@ -130,18 +130,26 @@ def jacket(user)
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   if current_temp < 50
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "It would be best to take one's jacket today.".colorize(:red)
+    puts "It would be best to take one's jacket today.".colorize(:red).blink
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "A jacket will not be needed, enjoy the warmth!".colorize(:red)
+    puts "A jacket will not be needed, enjoy the warmth!".colorize(:red).blink
   end
 end
 
 def list_all_conditions(user)
-   user.weathers.each do |i|
-     puts "**************************************************************************".colorize(:light_yellow)
-     puts "#{i.locations[0].name}: #{i["condition"]} with a high of #{(i["max_temperature"].to_f * 1.8 + 32).ceil} degrees Fahrenheit".colorize(:red)
-   end
+  # binding.pry
+  # if !user.weathers.include?(Weather.find_by(name: location.capitalize))
+  #   user.locations << new_location
+  # end
+  user.locations.each do |location|
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "#{location.name}: #{location.weather["condition"]} with a high of #{(location.weather["max_temperature"].to_f * 1.8 + 32).ceil} degrees Fahrenheit".colorize(:red).blink
+  end
+  # user.weathers.each do |i|
+  #    puts "**************************************************************************".colorize(:light_yellow)
+  #    puts "#{i.locations[0].name}: #{i["condition"]} with a high of #{(i["max_temperature"].to_f * 1.8 + 32).ceil} degrees Fahrenheit".colorize(:red).blink
+  #  end
 end
 
 def update_all_weathers(user)
