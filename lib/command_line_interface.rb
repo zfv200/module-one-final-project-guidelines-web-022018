@@ -65,23 +65,23 @@ def get_location(user)
   end
 end
 
-def game_or_weather(user)
-  puts "Enter a number to make a selection"
-  puts "1. Get the weather"
-  puts "2. Play a weather game"
-  decision = gets.chomp
-    case decision
-      when "1"
-        choose_location(user)
-      when "2"
-        puts "work in progress"
-        #game_method
-
-      else
-        puts "Please enter a valid selection"
-        game_or_weather(user)
-    end
-end
+# def game_or_weather(user)
+#   puts "Enter a number to make a selection"
+#   puts "1. Get the weather"
+#   puts "2. Play a weather game"
+#   decision = gets.chomp
+#     case decision
+#       when "1"
+#         choose_location(user)
+#       when "2"
+#         puts "work in progress"
+#         #game_method
+#
+#       else
+#         puts "Please enter a valid selection"
+#         game_or_weather(user)
+#     end
+# end
 
 def choose_location(user)
   puts "Enter a number to make a selection".colorize(:cyan)
