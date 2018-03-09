@@ -1,13 +1,13 @@
 require_relative '../config/environment'
 # require_relative "../lib/api_communicator.rb"
 # require_relative "../lib/command_line_interface.rb"
+pid = fork{ exec "afplay", 'media/Funky town Lyrics.mp3'}
 
 hello
 user = get_user
 get_location(user)
+# game_or_weather(user)
+choose_location(user)
 switch(user)
-# get_temperatures(user)
-# snow(user)
-# rain(user)
-# windy(user)
-# jacket(user)
+
+# pid = fork{ exec ‘killall’, 'afplay' }

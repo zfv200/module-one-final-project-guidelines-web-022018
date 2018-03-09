@@ -6,18 +6,50 @@
 
 def get_and_save_location(location, user)
   query_link = "https://www.metaweather.com/api/location/search/?query=#{location}"
+  if query_link == nil
+    puts "Please enter a valid city name"
 
+  end
   city_data = RestClient.get(query_link)
   city_array = JSON.parse(city_data)
   woeid = city_array[0]["woeid"]
   #maybe give locations a name?
+
+  #answer is in here, need to create a location with a weather
   new_location = Location.find_or_create_by(name: city_array[0]["title"])
-  user.locations << new_location
+  new_location.user_id = user.id
+  # user.locations << new_location
+  #refactor as a hash passed in to an update function
+  new_location.weather_id = get_weather_data(woeid)[0].id
+  new_location.save
+
+  # user.save
   woeid
   # new_location.user_id = user.id
   #how to add the weatherID??????
   #we're trying to add the location as an object, based on some convenient attribute
   # city_array[0]["title"] #= string of city name
+end
+
+def valid?(location)
+  query_link = "https://www.metaweather.com/api/location/search/?query=#{location}"
+  city_data = RestClient.get(query_link)
+  city_array = JSON.parse(city_data)
+  !city_array.empty?
+end
+
+def update_weather(location, user, old_weather)
+  query_link = "https://www.metaweather.com/api/location/search/?query=#{location}"
+
+  city_data = RestClient.get(query_link)
+  city_array = JSON.parse(city_data)
+  woeid = city_array[0]["woeid"]
+
+  all_weather = RestClient.get("https://www.metaweather.com/api/location/#{woeid}/")
+  weather_forecast = JSON.parse(all_weather)
+
+  current_weather = weather_forecast["consolidated_weather"][0]
+  old_weather.update(condition: current_weather["weather_state_name"], min_temperature: current_weather["min_temp"], max_temperature: current_weather["max_temp"], temperature: current_weather["the_temp"], wind_speed: current_weather["wind_speed"], humidity: current_weather["humidity"])
 end
 
 
@@ -46,57 +78,79 @@ def get_weather_data(get_and_save_location)
 end
 
 def get_temperatures(user)
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   min = (weather[0].min_temperature.to_f * 1.8 + 32).ceil
   max = (weather[0].max_temperature.to_f * 1.8 + 32).ceil
-  puts "Your forecast for today: Current temperature is #{current_temp} degrees Fahrenheit
-  with a low of #{min} and a high of #{max}."
+  puts "**************************************************************************".colorize(:light_yellow)
+
+  puts "Current temperature is #{current_temp} degrees Fahrenheit
+with a low of #{min} and a high of #{max}.".colorize(:red)
 end
 
 def snow(user)
   # binding.pry
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   condition = weather[0]["condition"].downcase
   if condition.include?("snow") || condition.include?("hail") || condition.include?("sleet")
-    puts "It gonna snow"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Better prepare for a bit of snow!".colorize(:red)
   else
-    puts "It ain't gonna snow"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Snow is not expected today.".colorize(:red)
   end
 end
 
 def rain(user)
-  # binding.pry
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   condition = weather[0]["condition"].downcase
   if condition.include?("heavy rain") || condition.include?("light rain") || condition.include?("thunderstorm") || condition.include?("showers")
-    puts "It gonna rain"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Do not hesitate to bring your umbrella, rain is expected!".colorize(:red)
   else
-    puts "Uh uh, it ain't gonna rain"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Rain is not expected today, worry not!".colorize(:red)
   end
 end
 
 def windy(user)
   # binding.pry
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   wind_speed = weather[0]["wind_speed"].to_f.ceil
   if wind_speed > 15
-    puts "O it windy"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "Today seems to be rather blustery!".colorize(:red)
   else
-    puts "Na it ain't that windy"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "No strong winds today, dear user.".colorize(:red)
   end
 end
 
 def jacket(user)
-  weather = get_weather_data(get_and_save_location(user.locations[0].name, user))
+  weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   if current_temp < 50
-    puts "You best be putting on yo jacket"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "It would be best to take one's jacket today.".colorize(:red)
   else
-    puts "Na you won't be needin yo jacket"
+    puts "**************************************************************************".colorize(:light_yellow)
+    puts "A jacket will not be needed, enjoy the warmth!".colorize(:red)
   end
 end
 
+def list_all_conditions(user)
+   user.weathers.each do |i|
+     puts "**************************************************************************".colorize(:light_yellow)
+     puts "#{i.locations[0].name}: #{i["condition"]} with a high of #{(i["max_temperature"].to_f * 1.8 + 32).ceil} degrees Fahrenheit".colorize(:red)
+   end
+end
+
+def update_all_weathers(user)
+  user.weathers.each do |weather|
+    location = weather.locations[0].name
+     update_weather(location, user, weather)
+   end
+end
 
 #
 #
