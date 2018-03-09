@@ -159,7 +159,7 @@ def switch(user)
   puts "Enter a number to make a selection: "
   puts "1. What is the temperature for today?".colorize(:cyan)
   puts "2. Is it going to rain today?".colorize(:red)
-  puts "3. Do I need to wear a jacket today".colorize(:light_yellow)
+  puts "3. Do I need to wear a jacket today?".colorize(:light_yellow)
   puts "4. Is it going to snow today?"
   puts "5. Is it going to be windy today?".colorize(:cyan)
   puts "6. List all my locations' weather.".colorize(:red)

@@ -94,10 +94,10 @@ def snow(user)
   condition = weather[0]["condition"].downcase
   if condition.include?("snow") || condition.include?("hail") || condition.include?("sleet")
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "It gonna snow".colorize(:red)
+    puts "Better prepare for a bit of snow!".colorize(:red)
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "It ain't gonna snow".colorize(:red)
+    puts "Snow is not expected today.".colorize(:red)
   end
 end
 
@@ -106,10 +106,10 @@ def rain(user)
   condition = weather[0]["condition"].downcase
   if condition.include?("heavy rain") || condition.include?("light rain") || condition.include?("thunderstorm") || condition.include?("showers")
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "It gonna rain".colorize(:red)
+    puts "Do not hesitate to bring your umbrella, rain is expected!".colorize(:red)
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Uh uh, it ain't gonna rain".colorize(:red)
+    puts "Rain is not expected today, worry not!".colorize(:red)
   end
 end
 
@@ -119,10 +119,10 @@ def windy(user)
   wind_speed = weather[0]["wind_speed"].to_f.ceil
   if wind_speed > 15
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "O it windy".colorize(:red)
+    puts "Today seems to be rather blustery!".colorize(:red)
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Na it ain't that windy".colorize(:red)
+    puts "No strong winds today, dear user.".colorize(:red)
   end
 end
 
@@ -131,10 +131,10 @@ def jacket(user)
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   if current_temp < 50
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "You best be putting on yo jacket".colorize(:red)
+    puts "It would be best to take one's jacket today.".colorize(:red)
   else
     puts "**************************************************************************".colorize(:light_yellow)
-    puts "Na you won't be needin yo jacket".colorize(:red)
+    puts "A jacket will not be needed, enjoy the warmth!".colorize(:red)
   end
 end
 
