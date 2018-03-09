@@ -6,10 +6,7 @@
 
 def get_and_save_location(location, user)
   query_link = "https://www.metaweather.com/api/location/search/?query=#{location}"
-  if query_link == nil
-    puts "Please enter a valid city name"
 
-  end
   city_data = RestClient.get(query_link)
   city_array = JSON.parse(city_data)
   woeid = city_array[0]["woeid"]
@@ -18,12 +15,13 @@ def get_and_save_location(location, user)
   #answer is in here, need to create a location with a weather
   new_location = Location.find_or_create_by(name: city_array[0]["title"])
   new_location.user_id = user.id
-  # user.locations << new_location
+  if !user.locations.include?(Location.find_by(name: location.capitalize))
+    user.locations << new_location
+  end
   #refactor as a hash passed in to an update function
   new_location.weather_id = get_weather_data(woeid)[0].id
   new_location.save
-
-  user.save
+  # user.save
   woeid
   # new_location.user_id = user.id
   #how to add the weatherID??????

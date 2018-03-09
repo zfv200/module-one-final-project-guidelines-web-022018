@@ -22,13 +22,14 @@ def hello
    # sleep(1.0/2.0)
    # puts a.asciify("R")
    # sleep(1)
-   # puts a.asciify("WeatherApp").colorize(:cyan)
+   # puts a.asciify("WeatherApp").colorize(:cyan).blink
    # sleep(2)
    puts "For all your weather needs.".colorize(:light_red)
 end
 
 def get_user
   # sleep(2)
+  sleep(1)
   puts "Please enter User ID".colorize(:light_yellow)
   # sleep(2)
   # puts "(Yes, this is funkytown)"
@@ -40,8 +41,7 @@ end
 def get_location(user)
   # if user.id == User.last.id
   if user.locations.empty?
-    puts "**************************************************************************".colorize(:light_yellow)
-    puts "Greetings, #{user.name.capitalize}!".colorize(:cyan)
+    sleep(1)
     puts "Please enter your first location (major cities only)"
     #this saves any location entered
     location = gets.chomp
@@ -52,13 +52,14 @@ def get_location(user)
       user.current_location = 0
       user.save
     else
-      puts "**************************************************************************".colorize(:light_yellow)
-      puts "City not recognized. Please enter a valid location"
-      puts "**************************************************************************".colorize(:light_yellow)
+      sleep(1)
+      puts "**************************************************************************".colorize(:light_yellow).blink
+      puts "City not recognized. Please enter a valid location".blink
+      puts "**************************************************************************".colorize(:light_yellow).blink
       get_location(user)
     end
   else
-    puts "**************************************************************************".colorize(:light_yellow)
+    sleep(1)
     puts "Welcome back, #{user.name}!".colorize(:cyan)
     #go through each of the users weathers and update them to be accurate
     #maybe write a method that would be called on each of them to do this
@@ -66,27 +67,30 @@ def get_location(user)
   end
 end
 
-# def game_or_weather(user)
-#   puts "Enter a number to make a selection"
-#   puts "1. Get the weather"
-#   puts "2. Play a weather game"
-#   decision = gets.chomp
-#     case decision
-#       when "1"
-#         choose_location(user)
-#       when "2"
-#         puts "work in progress"
-#         #game_method
-#
-#       else
-#         puts "Please enter a valid selection"
-#         game_or_weather(user)
-#     end
-# end
+def game_or_weather(user)
+  puts "Enter a number to make a selection"
+  puts "1. Get the weather"
+  puts "2. Play a weather game"
+  decision = gets.chomp
+    case decision
+      when "1"
+        choose_location(user)
+      when "2"
+        puts "work in progress"
+        #game_method
+
+      else
+        puts "Please enter a valid selection"
+        game_or_weather(user)
+    end
+end
 
 def choose_location(user)
+  sleep(1)
   puts "Enter a number to make a selection".colorize(:cyan)
+  sleep(1)
   puts "1. Choose saved location".colorize(:light_red)
+  sleep(1)
   puts "2. Choose new location".colorize(:light_yellow)
   selection = gets.chomp
     case selection
@@ -101,20 +105,19 @@ def choose_location(user)
         if valid?(location)
           get_and_save_location(location, user)
           user.current_location = (user.locations.count - 1)
-          switch(user)
+          # new_location = Location.find_by(name: location)
           user.save
+          switch(user)
         else
-          puts "**************************************************************************".colorize(:light_yellow)
-          puts "Please enter a valid selection"
-          puts "**************************************************************************".colorize(:light_yellow)
+          puts "**************************************************************************".colorize(:light_yellow).blink
+          puts "Please enter a valid selection".blink
+          puts "**************************************************************************".colorize(:light_yellow).blink
           choose_location(user)
         end
-      when "exit"
-        abort("Goodbye!")
       else
-        puts "**************************************************************************".colorize(:light_yellow)
-        puts "Please enter a valid selection"
-        puts "**************************************************************************".colorize(:light_yellow)
+        puts "**************************************************************************".colorize(:light_yellow).blink
+        puts "Please enter a valid selection".blink
+        puts "**************************************************************************".colorize(:light_yellow).blink
         choose_location(user)
     end
 end
@@ -142,7 +145,7 @@ def switch_location(user)
       old_weather = user.locations[location_selection.to_i - 1].weather
       update_weather(to_be_updated, user, old_weather)
       user.save
-      # binding.pry
+      switch(user)
     else
       puts "Please enter a valid selection"
       switch_location(user)
@@ -160,10 +163,10 @@ def switch(user)
   puts "Enter a number to make a selection: "
   puts "1. What is the temperature for today?".colorize(:cyan)
   puts "2. Is it going to rain today?".colorize(:red)
-  puts "3. Do I need to wear a jacket today?".colorize(:light_yellow)
+  puts "3. Do I need to wear a jacket today".colorize(:light_yellow)
   puts "4. Is it going to snow today?"
   puts "5. Is it going to be windy today?".colorize(:cyan)
-  puts "6. List all my locations' weather".colorize(:red)
+  puts "6. List all my locations' weather.".colorize(:red)
   puts "7. Change location".colorize(:light_yellow)
   puts "8. Exit WeatherApp"
 selection = gets.chomp
@@ -191,9 +194,10 @@ selection = gets.chomp
       choose_location(user)
     when "8"
       #exit statement
-      abort("Goodbye!")
+      a = Artii::Base.new
+      abort(a.asciify("Goodbye!").colorize(:cyan))
     else
-      puts "Please enter a valid selection"
+      puts "Please enter a valid selection".blink
       switch(user)
     end
 end
