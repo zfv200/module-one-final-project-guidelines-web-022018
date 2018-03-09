@@ -23,7 +23,7 @@ def get_and_save_location(location, user)
   new_location.weather_id = get_weather_data(woeid)[0].id
   new_location.save
 
-  # user.save
+  user.save
   woeid
   # new_location.user_id = user.id
   #how to add the weatherID??????
@@ -78,6 +78,7 @@ def get_weather_data(get_and_save_location)
 end
 
 def get_temperatures(user)
+  # binding.pry
   weather = get_weather_data(get_and_save_location(user.locations[user.current_location].name, user))
   current_temp = (weather[0].temperature.to_f * 1.8 + 32).ceil
   min = (weather[0].min_temperature.to_f * 1.8 + 32).ceil
